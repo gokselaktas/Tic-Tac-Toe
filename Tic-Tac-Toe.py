@@ -1,9 +1,23 @@
 import random
 import time
+
 win1=False
 win2=False
 tie=False
+
 board = [[" " for i in range(3)] for i in range(3)]
+
+class colors:
+    header = '\033[95m'
+    cblue = '\33[34m'
+    blue = '\033[94m'
+    green = '\033[92m'
+    yellow = '\033[93m'
+    fail = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    underline = '\033[4m'
+
 
 def playerselect():
      x = random.randint(1,2)
@@ -16,16 +30,16 @@ def playerselect():
      return p1
 
 def gameMenu():
-    print("**************************************\n"\
-          "**************************************\n"\
-          "**************************************\n"\
-          "*************TIC-TAC-TOE**************\n"\
-          "**************************************\n"\
-          "**************************************\n"\
-          "**************************************\n"\
+    print(colors.header+"*************************************\n"\
+          "*************************************\n"\
+          "*************************************\n"\
+          "*************"+colors.BOLD+"TIC-TAC-TOE"+colors.header+"*************\n"\
+          "*************************************\n"\
+          "*************************************\n"\
+          "*************************************\n"+colors.yellow+\
           "1: for single player\n"\
           "2: for two player\n"\
-          "3: for quit\n")
+          "3: for quit\n"+colors.ENDC)
 
     menu = int(input())
     if menu == 1:
@@ -61,7 +75,7 @@ def hamleAl(p1,vsPC):
         else:
             print("\nPlayer 2: ")
     else:
-        (print("\n\nPlayer1:"))if p1 else(print("\n\nPlayer2:"))
+        (print("\nPlayer1:"))if p1 else(print("\nPlayer2:"))
         print("\nHamle yapmak istediginiz satir:")
         satir = int(input())-1
         if satir < 0 or satir >2:
@@ -120,17 +134,32 @@ def kazanan():
         return ""
 
 
+def printboard():
+    s=""
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == "X":
+                s += ("["+colors.blue+"X"+colors.ENDC+"]")
+            elif board[i][j] == "O":
+                s += ("["+colors.yellow+"O"+colors.ENDC+"]")
+            else:
+                s += ("["+colors.ENDC+" "+colors.ENDC+"]")
+            #s+= ("["+board[i][j]+"]")
+        s += "\n"
+    return s
+
+
 def play():
 
     vsPC=gameMenu()
     winner = ""
     p1=playerselect()
+    print(printboard())
     while winner == "":
-        print("\n\n\n\n")
-        for i in range(3):
-            print(board[i])
+        print("\n\n")
         hamleYap(p1,vsPC)
         winner = kazanan()
+        print(printboard())
         p1 = not p1
     if winner == "Player":
         print("\n Tebrikler Kazandiniz ")
@@ -138,6 +167,7 @@ def play():
         print("\n Maalesef kaybettiniz")
     elif winner == "Berabere":
         print("\nBeraberlik")
+
 
 
 
